@@ -9,14 +9,17 @@
       books: '.books-panel .books-list',
     },
     bookProperties: {
+      book: '.book',
       image: 'book__image',
       id: 'data-id',
     },
+    form: '.filters form',
   };
 
   const classNames = {
     book: {
       favoriteBook: 'favorite',
+      hidden: 'hidden',
     },
   };
 
@@ -45,15 +48,17 @@
   render();
 
   const favoriteBooks = [];
+  const filters = [];
 
   const initActions = function(){
     const booksList = document.querySelector(select.listOf.books);
+    const form = document.querySelector(select.form);
 
     booksList.addEventListener('dblclick', function(event){
       event.preventDefault();
 
       const bookImage = event.target.offsetParent;
-      console.log(bookImage);
+      //console.log(bookImage);
 
       if(bookImage.classList.contains(select.bookProperties.image)){
         const favoriteBook = bookImage.classList.contains(classNames.book.favoriteBook);
@@ -69,7 +74,49 @@
 
       console.log(favoriteBooks);
     });
+
+    form.addEventListener('click', function(event){
+      //event.preventDefault();
+
+      const checkbox = event.target;
+      //console.log(checkbox);
+
+      if(checkbox.tagName === 'INPUT' && checkbox.type === 'checkbox' && checkbox.name === 'filter'){
+        console.log(checkbox.value);
+        if(checkbox.checked === true){
+          filters.push(checkbox.value);
+        } else if(checkbox.checked === false){
+          filters.splice(filters.indexOf(checkbox.value), 1);
+        }
+      }
+
+      console.log(filters);
+      filterBooks();
+    });
   };
 
   initActions();
+
+  const filterBooks = function(){
+
+    for(let book of dataSource.books){
+
+      let hiddenBook = false;
+      const bookImage = document.querySelector('.book__image[data-id="' + book.id + '"]');
+      console.log(bookImage);
+
+      for(let filter of filters){
+        if(!book.details[filter]){
+          hiddenBook = true;
+          break;
+        }
+      }
+
+      if(hiddenBook){
+        bookImage.classList.add(classNames.book.hidden);
+      } else if(!hiddenBook){
+        bookImage.classList.remove(classNames.book.hidden);
+      }
+    }
+  };
 }
