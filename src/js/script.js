@@ -9,14 +9,14 @@
       books: '.books-panel .books-list',
     },
     bookProperties: {
-      image: '.books-list .book__image',
+      image: 'book__image',
       id: 'data-id',
     },
   };
 
   const classNames = {
     book: {
-      favoriteImage: 'favorite',
+      favoriteBook: 'favorite',
     },
   };
 
@@ -44,30 +44,31 @@
 
   render();
 
-  const favouriteBooks = [];
+  const favoriteBooks = [];
 
   const initActions = function(){
+    const booksList = document.querySelector(select.listOf.books);
 
-    const bookImages = document.querySelectorAll(select.bookProperties.image);
-    console.log(bookImages);
+    booksList.addEventListener('dblclick', function(event){
+      event.preventDefault();
 
-    for(let bookImage of bookImages){
-      bookImage.addEventListener('dblclick', function(event){
-        event.preventDefault();
+      const bookImage = event.target.offsetParent;
+      console.log(bookImage);
 
-        // const bookId = bookImage.getAttribute(select.bookProperties.id);
-        // console.log(bookId);
+      if(bookImage.classList.contains(select.bookProperties.image)){
+        const favoriteBook = bookImage.classList.contains(classNames.book.favoriteBook);
 
-        if(!bookImage.classList.contains(classNames.book.favoriteImage)){
-          bookImage.classList.add(classNames.book.favoriteImage);
-          favouriteBooks.push(bookImage);
-        } else if(bookImage.classList.contains(classNames.book.favoriteImage)){
-          bookImage.classList.remove(classNames.book.favoriteImage);
-          favouriteBooks.splice(favouriteBooks.indexOf(bookImage), 1);
+        if(!favoriteBook){
+          bookImage.classList.add(classNames.book.favoriteBook);
+          favoriteBooks.push(bookImage);
+        } else {
+          bookImage.classList.remove(classNames.book.favoriteBook);
+          favoriteBooks.splice(favoriteBooks.indexOf(bookImage), 1);
         }
-        console.log(favouriteBooks);
-      });
-    }
+      }
+
+      console.log(favoriteBooks);
+    });
   };
 
   initActions();
