@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 {
   'use strict';
 
@@ -143,6 +141,7 @@
       }
     }
     determineRatingBgc(rating){
+      // eslint-disable-next-line no-unused-vars
       const thisBooksList = this;
 
       let background = '';
@@ -162,6 +161,7 @@
 
   }
 
+  // eslint-disable-next-line no-unused-vars
   const app = new BooksList();
 
 }
