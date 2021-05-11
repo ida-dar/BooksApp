@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 {
   'use strict';
 
@@ -46,13 +48,11 @@
       const thisBooksList = this;
 
       thisBooksList.data = dataSource.books;
-      //console.log(thisBooksList.data);
 
       for(let book of thisBooksList.data){
         /* generate HTML based on template */
         const ratingBgc = thisBooksList.determineRatingBgc(book.rating);
         const ratingWidth = book.rating * 10;
-        //console.log(ratingWidth);
 
         const bookData = {
           id: book.id,
@@ -66,10 +66,8 @@
         };
 
         const generatedHTML = templates.bookLink(bookData);
-        //console.log(`generatedHTML:`, generatedHTML);
         /* create element using utils.createDOMFromHTML */
         thisBooksList.element = utils.createDOMFromHTML(generatedHTML);
-        //console.log(`bookHTML:`, thisBooksList.element);
         /* find books list container */
         const booksList = document.querySelector(select.listOf.books);
         /* add element to list */
@@ -91,7 +89,6 @@
         event.preventDefault();
 
         const bookImage = event.target.offsetParent; // offsetParent gives access to parent's container (here <a>). Otherwise, the click gives <img> (event.target is <img>) not <a>, which makes impossible to add class 'favorite' to the book
-        //console.log(bookImage);
 
         if(bookImage.classList.contains(select.bookProperties.image)){
           const favoriteBook = bookImage.classList.contains(classNames.book.favoriteBook);
@@ -105,17 +102,14 @@
           }
         }
 
-        console.log(thisBooksList.favoriteBooks);
       });
 
       thisBooksList.dom.form.addEventListener('click', function(event){
         //event.preventDefault();
 
         const checkbox = event.target;
-        //console.log(checkbox);
 
         if(checkbox.tagName === 'INPUT' && checkbox.type === 'checkbox' && checkbox.name === 'filter'){
-          console.log(checkbox.value);
           if(checkbox.checked === true){
             thisBooksList.filters.push(checkbox.value);
           } else if(checkbox.checked === false){
@@ -123,7 +117,6 @@
           }
         }
 
-        console.log(thisBooksList.filters);
         thisBooksList.filterBooks();
       });
     }
@@ -134,7 +127,6 @@
 
         let shouldBeHidden = false;
         const bookImage = document.querySelector('.book__image[data-id="' + book.id + '"]');
-        console.log(bookImage);
         /* check if checked filter in array filteres matches book data */
         for(let filter of thisBooksList.filters){
           if(!book.details[filter]){
@@ -152,7 +144,6 @@
     }
     determineRatingBgc(rating){
       const thisBooksList = this;
-      console.log(thisBooksList);
 
       let background = '';
       /* set rating bar background depending on rating*/
@@ -172,6 +163,5 @@
   }
 
   const app = new BooksList();
-  console.log(app);
 
 }
